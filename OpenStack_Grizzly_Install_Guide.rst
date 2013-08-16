@@ -4,7 +4,7 @@
 
 :Version: 2.0
 :Source: https://github.com/mseknibilel/OpenStack-Grizzly-Install-Guide
-:Keywords: Multi node, Grizzly, Quantum, Nova, Keystone, Glance, Horizon, Cinder, OpenVSwitch, KVM, Ubuntu Server 12.04/13.04 (64 bits).
+:Keywords: Multi node, Grizzly, Quantum, Nova, Keystone, Glance, Horizon, Cinder, PLUMgrid, KVM, Ubuntu Server 12.04/13.04 (64 bits).
 
 Authors
 ==========
@@ -279,15 +279,15 @@ Status: Stable
 2.8. Quantum
 -------------------
 
-* Install the Quantum server:
+* Install the Quantum server ::
 
-   apt-get install -y quantum-server
+   apt-get install -y quantum-server quantum-metadata-agent
 
-* Create the plumgrid-plugin directory
+* Create the plumgrid-plugin directory  ::
 
    mkdir /etc/quantum/plugins/plumgrid
 
-* Create the PLUMgrid plugin configuration file /etc/quantum/plugins/plumgrid/plumgrid.ini with: 
+* Create the PLUMgrid plugin configuration file /etc/quantum/plugins/plumgrid/plumgrid.ini with ::
 
    #Under the database section
    [DATABASE]
@@ -324,9 +324,42 @@ Status: Stable
    admin_password = service_pass
    signing_dir = /var/lib/quantum/keystone-signing
 
-* Restart the quantum server::
+* Replace default PLUMgrid code with /plumgrid/plumgrid-quantum/ ::
 
+   ~/git clone https://github.com/plumgrid/plumgrid-quantum.git -b cervino-int-grizzly
+   cd plumgrid-quantum/quantum/plugins/
+   rm -rf /usr/share/pyshared/quantum/plugins/plumgrid/
+   cp -r plumgrid /usr/share/pyshared/quantum/plugins/
+
+* Specify PLUMgrid plugin in /etc/default/quantum-server ::
+
+   QUANTUM_PLUGIN_CONFIG="/etc/quantum/plugins/plumgrid/plumgrid.ini"
+   
+* Update /etc/quantum/metadata_agent.ini::
+
+   # The Quantum user information for accessing the Quantum API.
+   auth_url = http://10.10.10.51:35357/v2.0
+   auth_region = RegionOne
+   admin_tenant_name = service
+   admin_user = quantum
+   admin_password = service_pass
+
+   # IP address used by Nova metadata server
+   nova_metadata_ip = 10.10.10.51
+
+   # TCP Port used by Nova metadata server
+   nova_metadata_port = 8775
+
+   metadata_proxy_shared_secret = helloOpenStack
+
+ * Restart the quantum server::
+ 
    service quantum-server restart
+
+* Restart the quantum meta-data::
+ 
+   service quantum-metadata-agent restart
+
 
 2.9. Nova
 ------------------
