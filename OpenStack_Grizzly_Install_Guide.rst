@@ -279,25 +279,24 @@ Status: Stable
 2.8. Quantum
 -------------------
 
-* Install the Quantum server and the OpenVSwitch package collection::
+* Install the Quantum server:
 
    apt-get install -y quantum-server
 
-* Edit the OVS plugin configuration file /etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini with:: 
+* Create the plumgrid-plugin directory
+
+   mkdir /etc/quantum/plugins/plumgrid
+
+* Create the PLUMgrid plugin configuration file /etc/quantum/plugins/plumgrid/plumgrid.ini with: 
 
    #Under the database section
    [DATABASE]
    sql_connection = mysql://quantumUser:quantumPass@10.10.10.51/quantum
 
-   #Under the OVS section
-   [OVS]
-   tenant_network_type = gre
-   tunnel_id_ranges = 1:1000
-   enable_tunneling = True
-
-   #Firewall driver for realizing quantum security group function
-   [SECURITYGROUP]
-   firewall_driver = quantum.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+   #Under the PLUMgrid Director section
+   [PLUMgridDirector]
+   director_server_port = 8080
+   director_server = IP_PLUMGRID_DIRECTOR
 
 * Edit /etc/quantum/api-paste.ini ::
 
@@ -312,6 +311,10 @@ Status: Stable
 
 * Update the /etc/quantum/quantum.conf::
 
+   #Select PLUMgrid plugin
+   core_plugin = quantum.plugins.plumgrid.plumgrid_nos_plugin.plumgrid_plugin.QuantumPluginPLUMgridV2
+
+   #Keystone configuration
    [keystone_authtoken]
    auth_host = 10.10.10.51
    auth_port = 35357
@@ -383,13 +386,9 @@ Status: Stable
    quantum_admin_username=quantum
    quantum_admin_password=service_pass
    quantum_admin_auth_url=http://10.10.10.51:35357/v2.0
-   libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
-   linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
-   #If you want Quantum + Nova Security groups
+   libvirt_vif_driver = nova.virt.libvirt.vif.LibvirtGenericVIFDriver
+   linuxnet_interface_driver =
    firewall_driver=nova.virt.firewall.NoopFirewallDriver
-   security_group_api=quantum
-   #If you want Nova Security groups only, comment the two lines above and uncomment line -1-.
-   #-1-firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver
 
    #Metadata
    service_quantum_metadata_proxy = True
