@@ -159,10 +159,6 @@ Status: Stable
 2.5. Others
 -------------------
 
-* Install other services::
-
-   apt-get install -y vlan bridge-utils
-
 * Enable IP_Forwarding::
 
    sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf

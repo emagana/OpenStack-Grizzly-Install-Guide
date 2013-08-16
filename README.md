@@ -14,4 +14,5 @@ master        | Single            | Linux Bridge    | https://github.com/mseknib
 OVS_SingleNode| Single            | OpenVSwitch     | https://github.com/mseknibilel/OpenStack-Grizzly-Install-Guide/blob/OVS_SingleNode/OpenStack_Grizzly_Install_Guide.rst |
 OVS_MutliNode | Multi             | OpenVSwitch     | https://github.com/mseknibilel/OpenStack-Grizzly-Install-Guide/blob/OVS_MultiNode/OpenStack_Grizzly_Install_Guide.rst |
 Nicira_SingleNode | Single        | Nicira NVP     | https://github.com/mseknibilel/OpenStack-Grizzly-Install-Guide/blob/Nicira_SingleNode/OpenStack_Grizzly_Install_Guide.rst |
+PLUMgrid_MultiNode | Multi	  | PLUMgrid        | https://github.com/emagana/OpenStack-Grizzly-Install-Guide/blob/PLUMgrid_MultiNode/OpenStack_Grizzly_Install_Guide.rst |
 SandBox on Virtual Machine | Single/Multi | N/A     | https://github.com/dguitarbite/OpenStack-Grizzly-VM-SandBox-Guide/blob/master/SandBox-Single-Node.rst |
