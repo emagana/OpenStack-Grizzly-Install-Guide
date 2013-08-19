@@ -52,7 +52,7 @@ Status: Stable
 ====================
 
 :Node Role: NICs
-:Control Node: eth0 (10.10.10.51), eth1 (192.168.100.51)
+:Control Node: eth0 (10.10.10.51), eth1 (172.16.5.208)
 :Compute Node: eth0 (10.10.10.53), eth1 (10.20.20.53)
 
 **Note 1:** Always use dpkg -s <packagename> to make sure you are using grizzly packages (version : 2013.1)
@@ -90,7 +90,7 @@ Status: Stable
    #For Exposing OpenStack API over the internet
    auto eth1
    iface eth1 inet static
-   address 192.168.100.51
+   address 172.16.5.208
    netmask 255.255.255.0
    gateway 192.168.100.1
    dns-nameservers 8.8.8.8
@@ -201,7 +201,7 @@ Status: Stable
    export OS_TENANT_NAME=admin
    export OS_USERNAME=admin
    export OS_PASSWORD=admin_pass
-   export OS_AUTH_URL="http://192.168.100.51:5000/v2.0/"
+   export OS_AUTH_URL="http://172.16.5.208:5000/v2.0/"
 
    # Load it:
    source creds
@@ -461,7 +461,7 @@ Status: Stable
    [filter:authtoken]
    paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
    service_protocol = http
-   service_host = 192.168.100.51
+   service_host = 172.16.5.208
    service_port = 5000
    auth_host = 10.10.10.51
    auth_port = 35357
@@ -533,7 +533,7 @@ Status: Stable
 
    service apache2 restart; service memcached restart
 
-* Check OpenStack Dashboard at http://192.168.100.51/horizon. We can login with the admin / admin_pass
+* Check OpenStack Dashboard at http://172.16.5.208/horizon. We can login with the admin / admin_pass
 
 
 3. Compute Node
@@ -691,7 +691,7 @@ Status: Stable
 
    # Vnc configuration
    novnc_enabled=true
-   novncproxy_base_url=http://192.168.100.51:6080/vnc_auto.html
+   novncproxy_base_url=http://172.16.5.208:6080/vnc_auto.html
    novncproxy_port=6080
    vncserver_proxyclient_address=10.10.10.53
    vncserver_listen=0.0.0.0
@@ -788,7 +788,7 @@ To start your first VM, we first need to create a new tenant, user and internal 
    export OS_TENANT_NAME=project_one
    export OS_USERNAME=user_one
    export OS_PASSWORD=user_one
-   export OS_AUTH_URL="http://192.168.100.51:5000/v2.0/"
+   export OS_AUTH_URL="http://172.16.5.208:5000/v2.0/"
 
    source creds_proj_one
 
