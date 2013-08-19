@@ -92,7 +92,7 @@ Status: Stable
    iface eth1 inet static
    address 172.16.5.208
    netmask 255.255.255.0
-   gateway 192.168.100.1
+   gateway 172.16.5.1
    dns-nameservers 8.8.8.8
 
    #Not internet connected(used for OpenStack management)
